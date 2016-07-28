@@ -1,0 +1,353 @@
+
+*
+{
+	padding: auto;
+	margin: auto;
+}
+
+.separator
+{
+	width: 100%;
+	height: 1px;
+	clear: both;
+}
+
+.pageHeader 
+{
+	width: 100%;
+	height: 125px;
+	margin: 10px auto;
+	text-align: center;
+}
+
+.header -> h1
+{
+	margin: 15px;
+}
+
+.pageContent
+{
+	width: 100%;
+	margin: 70px 10px 10px auto;
+}
+
+.comments
+{
+	width: 750px;
+}
+
+.comment
+{
+	width: 750px;
+	border: 2px solid #666;
+	border-radius: 5px;
+	margin: 15px auto;
+}
+
+.comment .header
+{
+	width: 100%;
+	margin: 10px auto 30px auto;
+	text-align: center;
+	float: left;
+}
+
+.comment .header .firstname
+{
+	font-weight: bold;
+}
+
+.comment .content
+{
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.comment .footer ul
+{
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	display: block;
+	font-size: 0; /* Убирание нежелательных отступов у дочерних эелементов */
+}
+
+.comment .footer ul li
+{
+	width: 100%;
+	margin: auto 10px;
+	font-size: 12pt; /* Возвращаем размер шрифта */
+	text-decoration: none;
+	display: inline; /* позволяем vertical-align выравнивать себя по вертикали */
+	vertical-align: middle;
+}
+
+.comment .footer span.commentNumber
+{
+	font-weight: bold;
+}
+
+.comment .footer button
+{
+	padding: 5px;
+	border: none;
+	background: none;
+}
+
+.commentResponded
+{
+	width: 650px;
+	border: 2px solid #666;
+	border-radius: 5px;
+	margin: 15px auto;
+	float: right;
+}
+
+.commentResponded .header
+{
+	width: 100%;
+	margin: 10px auto 30px auto;
+	text-align: center;
+	float: left;
+}
+
+.commentResponded .header .firstname
+{
+	font-weight: bold;
+}
+
+.commentResponded .content
+{
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.commentResponded .footer ul
+{
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	display: block;
+	font-size: 0; /* Убирание нежелательных отступов у дочерних эелементов */
+}
+
+.commentResponded .footer ul li
+{
+	width: 100%;
+	margin: auto 10px;
+	font-size: 12pt; /* Возвращаем размер шрифта */
+	text-decoration: none;
+	display: inline; /* позволяем vertical-align выравнивать себя по вертикали */
+	vertical-align: middle;
+}
+
+.commentResponded .footer span.commentNumber
+{
+	font-weight: bold;
+}
+
+.commentResponded .footer button
+{
+	padding: 5px;
+	border: none;
+	background: none;
+}
+
+.newComment
+{
+	width: 840px;
+	height: 300px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.newComment .form .header input
+{
+	display: none;
+}
+
+.newComment .form .header div
+{
+	margin: 10px auto auto auto;
+	background: none;
+	border: none;
+	display: inline-block;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.newComment .form
+{
+	text-align: center;
+	margin: auto;
+	clear: both;
+}
+
+.newComment .form textarea
+{
+	margin: 10px auto;
+}
+
+.newComment .form ul.fieldsForm
+{
+	height: 35px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	text-align: center;
+	display: block;
+	font-size: 0; /* Убирание нежелательных отступов у дочерних эелементов */
+}
+
+.newComment .form ul.fieldsForm li
+{
+	width: 100%;
+	height: 35px;
+	margin: auto 10px;
+	font-size: 12pt; /* Возвращаем размер шрифта */
+	text-decoration: none;
+	display: inline; /* позволяем vertical-align выравнивать себя по вертикали */
+	vertical-align: middle;
+}
+
+.newComment .form ul.fieldsForm li select
+{
+	margin-top: -50px; 
+	width: 100px;
+	height: 35px;
+	background: none;
+}
+
+.newComment .form ul.fieldsForm li button
+{
+	background: none;
+}
+
+.newComment .form ul.submit
+{
+	padding: 0;
+	margin: 0;
+	float: right;
+	text-align: center;
+	display: block;
+	font-size: 0; /* Убирание нежелательных отступов у дочерних эелементов */
+}
+
+.newComment .form ul.submit li
+{
+	width: 100%;
+	margin: auto 10px;
+	font-size: 12pt; /* Возвращаем размер шрифта */
+	text-decoration: none;
+	display: inline; /* позволяем vertical-align выравнивать себя по вертикали */
+	vertical-align: middle;
+}
+
+.newComment .form ul.submit li button
+{
+	background: none;
+}
+
+
+
+#RespondedForm .header input
+{
+	display: none;
+}
+
+#RespondedForm .header div
+{
+	margin: 10px auto auto auto;
+	background: none;
+	border: none;
+	display: inline-block;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+#RespondedForm
+{
+	text-align: center;
+	clear: both;
+	margin: auto auto 60px auto;
+}
+
+#RespondedForm .header h3
+{
+	margin: 10px auto;
+}
+
+#RespondedForm textarea
+{
+	margin: 10px auto;
+	width: 750px;
+	height: 120px;
+}
+
+#RespondedForm input
+{
+	width: 750px;
+}
+
+#RespondedForm ul.fieldsForm
+{
+	height: 35px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	text-align: center;
+	display: block;
+	font-size: 0; /* Убирание нежелательных отступов у дочерних эелементов */
+}
+
+#RespondedForm ul.fieldsForm li
+{
+	width: 100%;
+	height: 35px;
+	margin: auto 10px;
+	font-size: 12pt; /* Возвращаем размер шрифта */
+	text-decoration: none;
+	display: inline; /* позволяем vertical-align выравнивать себя по вертикали */
+	vertical-align: middle;
+}
+
+#RespondedForm ul.fieldsForm li select
+{
+	margin-top: -50px; 
+	width: 100px;
+	height: 35px;
+	background: none;
+}
+
+#RespondedForm ul.fieldsForm li button
+{
+	background: none;
+}
+
+#RespondedForm ul.submit
+{
+	padding: 0;
+	margin: 0;
+	float: right;
+	text-align: center;
+	display: block;
+	font-size: 0; /* Убирание нежелательных отступов у дочерних эелементов */
+}
+
+#RespondedForm ul.submit li
+{
+	width: 100%;
+	margin: auto 10px;
+	font-size: 12pt; /* Возвращаем размер шрифта */
+	text-decoration: none;
+	display: inline; /* позволяем vertical-align выравнивать себя по вертикали */
+	vertical-align: middle;
+}
+
+#RespondedForm ul.submit li button
+{
+	background: none;
+}

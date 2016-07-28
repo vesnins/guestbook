@@ -8,12 +8,14 @@
 			parent::__construct();
 		}
 
+// Данная функция получает все комментарии из БД (вместе с ответами)
+
 		public function getAllComments()
 		{
 			$data = $this->query_getAll('comments');
 			$data = $this->getAllAnswerComments($data);
+			return $data;
 		}
-
 
 // Данная функция отправляет запрос в базу данных на получение всех данных из таблицы переданной в $tablename с лимитом ($limit) и условием ($where)
 		private function query_getAll($tablename, $limit = '', $where = '') 
@@ -38,6 +40,7 @@
 					$i++;
 				}
 			}
+			return $comments;
 		}
 
 	}
