@@ -11,7 +11,7 @@ class guestbook extends CI_Controller {
 	public function index()
 	{
 		$this->load->model('Guestbook_model');
-		$this->Guestbook_model->getAllComments();
-		$this->load->view('guestbook/main');
+		$data['comments'] = $this->Guestbook_model->getAllComments();
+		$this->load->view('guestbook/main', $data);
 	}
 }
