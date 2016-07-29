@@ -19,7 +19,13 @@
 	<div class="pageContent">
 		<div class="comments">
 			<?php foreach ($comments as $dataItem) {
+				// Небольшой костыль для решения бага с сохранением переменной в view
+				// Смысл заключается в том, что если эелемент массива с ответами на комментарии не существует, он создается и ему присваевается значение False. Проверка на view осуществляется именно на True или False. Можно было, конечно, во view обычным isset сделать, но view почему-то сохранял переменную при повторном вызове отображения, хотя в массиве этого переданно не было. В общем подругому решить не удалось, да и это было "нагугленно" в интернете.  
+				if (!isset($dataItem['answerComments'])) {
+					$dataItem['answerComments'] = FALSE;
+				}
 				$this->load->view('guestbook/comment', $dataItem);
+				print_r($dataItem);
 			} ?>
 		</div>	
 		<div class="separator"></div>

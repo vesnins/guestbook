@@ -5,6 +5,9 @@
 	<title></title>
 </head>
 <body>
+<br/>
+<?php //if(isset($answerComments)): echo 'Переменная $answerComments жива...'; else: 'Переменной $answerComments НЕТ!!!'; endif; ?>
+<br/>
 	<div class="comment">
 		<div class="header">
 			<span class="firstname"><?= $firstname;?></span> <?= $date; ?> 
@@ -37,12 +40,13 @@
 		</div>
 	</div>
 	<div class="separator"></div>
-	<? if(isset($answerComments): ?>
-		<?php $answerComments['preCommentFirstName'] = $firstname;
-		print_r($answerComments);
-		$this->load->view('guestbook/answerComment', $answerComments);
-		?>
-	<? endif; ?>
-	<?php unset($answerComments); ?>
+	<?php 
+// Данный if проверяет на существование массив с ответами на комментарии, и, если они существуют, то вызовет view ответов на комментарии. (В связи с использованием костыля, в условии if используется "@" подавляющаяя notice при отсутствие переменной) 
+		if(@$answerComments)
+		{
+			$answerComments['preCommentFirstName'] = $firstname;
+			$this->load->view('guestbook/answerComment', $answerComments);
+		}
+	?>
 </body>
 </html>
