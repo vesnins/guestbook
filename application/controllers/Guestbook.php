@@ -21,4 +21,10 @@ class guestbook extends CI_Controller {
 		$this->load->model('Guestbook_model');
 		$this->Guestbook_model->addComments($_POST);
 	}
+
+	public function addAnswerComment()
+	{
+		$this->load->model('Guestbook_model');
+		$this->Guestbook_model->addAnswerComment($_POST);
+	}
 }

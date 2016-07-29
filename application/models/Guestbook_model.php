@@ -17,11 +17,18 @@
 			return $data;
 		}
 
-// Данная функция записывает комментарии прибывшие POST-запросом (предварительно подготавливая из с помощью preparationData);
+// Данная функция записывает комментарии прибывшие POST-запросом в таблицу comments (предварительно подготавливая их с помощью preparationData)
 		public function addComments($data)
 		{
 			$data = $this->preparationData($data);
 			return $this->query_add('comments', $data);
+		}
+
+// Данная функция записывает ответы на комментарии прибывшие POST-запросом в таблицу commentsAnswer (предварительно подготавливая их с помощью preparationData)
+		public function addAnswerComment($data)
+		{
+			$data = $this->preparationData($data);
+			return $this->query_add('commentsAnswer', $data);
 		}
 
 // Данная функция отправляет запрос в базу данных на получение всех данных из таблицы переданной в $tablename с лимитом ($limit) и условием ($where)
