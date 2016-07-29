@@ -6,6 +6,7 @@ class guestbook extends CI_Controller {
 	{
 		parent::__construct();
 		$this->output->enable_profiler(TRUE);
+		$this->load->library('session');
 	}
 
 	public function index()
@@ -13,5 +14,11 @@ class guestbook extends CI_Controller {
 		$this->load->model('Guestbook_model');
 		$data['comments'] = $this->Guestbook_model->getAllComments();
 		$this->load->view('guestbook/main', $data);
+	}
+
+	public function addComments()
+	{
+		$this->load->model('Guestbook_model');
+		$this->Guestbook_model->addComments($_POST);
 	}
 }
