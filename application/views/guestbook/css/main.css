@@ -357,3 +357,105 @@
 {
 	background: none;
 }
+
+
+
+#EditCommentForm .header input
+{
+	display: none;
+}
+
+#EditCommentForm .header div
+{
+	margin: 10px auto auto auto;
+	background: none;
+	border: none;
+	display: inline-block;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+#EditCommentForm
+{
+	text-align: center;
+	clear: both;
+	margin: auto auto 60px auto;
+}
+
+#EditCommentForm .header h3
+{
+	margin: 10px auto;
+}
+
+#EditCommentForm textarea
+{
+	margin: 10px auto;
+	width: 750px;
+	height: 120px;
+}
+
+#EditCommentForm input
+{
+	width: 750px;
+}
+
+#EditCommentForm ul.fieldsForm
+{
+	height: 35px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	text-align: center;
+	display: block;
+	font-size: 0; /* Убирание нежелательных отступов у дочерних эелементов */
+}
+
+#EditCommentForm ul.fieldsForm li
+{
+	width: 100%;
+	height: 35px;
+	margin: auto 10px;
+	font-size: 12pt; /* Возвращаем размер шрифта */
+	text-decoration: none;
+	display: inline; /* позволяем vertical-align выравнивать себя по вертикали */
+	vertical-align: middle;
+}
+
+#EditCommentForm ul.fieldsForm li select
+{
+	margin-top: -50px; 
+	width: 100px;
+	height: 35px;
+	background: none;
+}
+
+#EditCommentForm ul.fieldsForm li button
+{
+	background: none;
+}
+
+#EditCommentForm ul.submit
+{
+	padding: 0;
+	margin: 0;
+	float: right;
+	text-align: center;
+	display: block;
+	font-size: 0; /* Убирание нежелательных отступов у дочерних эелементов */
+}
+
+#EditCommentForm ul.submit li
+{
+	width: 100%;
+	margin: auto 10px;
+	font-size: 12pt; /* Возвращаем размер шрифта */
+	text-decoration: none;
+	display: inline; /* позволяем vertical-align выравнивать себя по вертикали */
+	vertical-align: middle;
+}
+
+#EditCommentForm ul.submit li button
+{
+	background: none;
+}

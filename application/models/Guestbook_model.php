@@ -20,15 +20,22 @@
 // Данная функция записывает комментарии прибывшие POST-запросом в таблицу comments (предварительно подготавливая их с помощью preparationData)
 		public function addComments($data)
 		{
-			$data = $this->preparationData($data);
+			$data = $this->preparationData($data, true);
 			return $this->query_add('comments', $data);
 		}
 
 // Данная функция записывает ответы на комментарии прибывшие POST-запросом в таблицу commentsAnswer (предварительно подготавливая их с помощью preparationData)
 		public function addAnswerComment($data)
 		{
-			$data = $this->preparationData($data);
+			$data = $this->preparationData($data, true);
 			return $this->query_add('commentsAnswer', $data);
+		}
+
+// Данная функция изменяет записи в таблице commments на основании данных прибывших POST-запросом (предварительно подготавливая их с помощь preparationData)
+		public function editComments($data)
+		{
+			$data = $this->preparationData($data, false);
+			return $this->query_edit('comments', $data);
 		}
 
 // Данная функция отправляет запрос в базу данных на получение всех данных из таблицы переданной в $tablename с лимитом ($limit) и условием ($where)
@@ -43,6 +50,11 @@
 		{
 			$query = $this->db->insert_string($tablename, $data);
 			return $this->db->query($query);
+		}
+
+		private function query_edit($tablename, $data, $id)
+		{
+
 		}
 
 // Данная функция "склеивает" массивы комментариев и ответов на комментарии
@@ -65,17 +77,32 @@
 		}
 
 		// Данная функция подготавливает массив данных к отправке в БД ()
-		private function preparationData($data)
+		// Второй парамметр говорит о том, подготавливаются ли данные для добавления или редактирования (true - добавление, false - редактирование)
+		private function preparationData($data, $isAdd = true)
 		{
-			// Проверяем данные
-			if($this->protectedData($data)){
-				// Добавляем ID комментария с помощь addNewIdComments, так как использование AI MySQL не целесообразно
-				$data['id'] = $this->addNewIdComments();
-				// Добавляем ID сесси в массив
-				$data['sessionId'] = session_id();
-				// Добавляем текущее время и дату в массив
-				$data['date'] = $this->getRussianDate(date('d M Y \в H:i:s', time()));
-				return $data;
+			if($isAdd)
+			{
+				// Проверяем данные
+				if($this->protectedData($data)){
+					// Добавляем ID комментария с помощь addNewIdComments, так как использование AI MySQL не целесообразно
+					$data['id'] = $this->addNewIdComments();
+					// Добавляем ID сесси в массив
+					$data['sessionId'] = session_id();
+					// Добавляем текущее время и дату в массив
+					$data['date'] = $this->getRussianDate(date('d M Y \в H:i:s', time()));
+					return $data;
+				}
+			} else {
+				// Проверяем данные
+				if($this->protectedData($data)){
+					// Удаление пустых элементов из массива
+					$data = $this->emptyElementsFromArray($data);
+					// Разделяем массив на еще два массива (в первом будет лежать id редактируеммой записи, а во втором данные)
+					
+					// Сверяем ID записи, которую мы редактируем и ID записи присланной из формы
+					// Можно добавить обновление времени публикации (так как редактируется тут строго по сессии в поле "дата редактирование" отпадает нужда)
+					return $data;
+				}
 			}
 		}
 
@@ -100,6 +127,18 @@
 		private function protectedData($data)
 		{
 			return true;
+		}
+
+		// Данная функция удаляет все пустые элементы массива
+
+		private function emptyElementsFromArray($array)
+		{
+			foreach ($array as $key => $value) {
+				if($value == ''):
+					unset($array[$key]);
+				endif;
+			}
+			return $array;
 		}
 
 		// Функция "руссификации" даты

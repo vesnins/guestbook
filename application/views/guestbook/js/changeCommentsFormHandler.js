@@ -48,37 +48,59 @@ $(document).ready(function(){
 	{
 		var idComment = $('#сommentsWhichAreResponsible span.commentNumber').text();
 		idComment = idComment.substr(1);
-		console.log(idComment);
 		return idComment;
 	}
 
-	var FormEditCommentIsShow;
+	var FormAddAnswerCommentIsShow;
 
-	function getFormEditComment(event)
+	function getFormAddAnswerComment(event)
 	{
-		console.log('Мы попали в функцию "getFormEditComment"');
-//		$('#RespondedForm').remove();
 		// Данный if проверяет есть ли форма ответа на комментарий на странице. Если нет, то он создает её и
-		// присваевает переменной FormEditCommentIsShow значение true, говорящее о том, что форма создана.
+		// присваевает переменной FormAddAnswerCommentIsShow значение true, говорящее о том, что форма создана.
 		// Если форма есть, то он удаляет её и присваевает переменной значение false
-		if (!window.FormEditCommentIsShow)
+		if (!window.FormAddAnswerCommentIsShow)
 		{
 			if (!event.data.isCommentResponded)
 			{
 				$(this).closest('.comment').attr('id', 'сommentsWhichAreResponsible');
-				console.log('Это отзыв. Продолжаем обработку...');
 				$('#сommentsWhichAreResponsible').after('<div class="form" id="RespondedForm"><form method="POST" action="/guestbook.ru/index.php/Guestbook/addAnswerComment"><div class="header"><h3>Вы хотите ответить на отзыв? Заполните форму:</h3></div><input type="hidden" name="idComment" value="'+getIdComment()+'"/><input name="firstname" type="text" size="101" /><textarea name="text" cols="100" rows="10" ></textarea><div class="separator"></div><ul class="fieldsForm"><li><select><option>Sans</option><option>Sans-Sherif</option><option>Fantasy</option><option>Monospace</option></select></li><li><button type="button" name="fontSize" value="+"><img src="/guestbook.ru/images/commentsEditImage/Increase Font-35.png"></button></li><li><button type="button" name="fontSize" value="-"><img src="/guestbook.ru/images/commentsEditImage/Decrease Font-35.png"></button></li><li><button type="button" name="fontDecoration" value="bold"><img src="/guestbook.ru/images/commentsEditImage/Bold Filled-35png"></button></li><li><button type="button" name="fontDecoration" value="italic"><img src="/guestbook.ru/images/commentsEditImage/Italic Filled-35.png"></button></li><li><button type="button" name="fontDecoration" value="underline"><img src="/guestbook.ru/images/commentsEditImage/Underline-35.png"></button></li></ul><ul class="submit"><li><button type="submit"><img src="/guestbook.ru/images/commentsEditImage/Paper Plane-35.png"></button></li></ul></form></div>');
 				$(this).closest('.comment').removeAttr('id', 'сommentsWhichAreResponsible');
 			} else {
 				$(this).closest('.commentResponded').attr('id', 'сommentsWhichAreResponsible');
-				console.log('Это ответ на отзыв. Продолжаем обработку...');
 				$('#сommentsWhichAreResponsible').after('<div class="form" id="RespondedForm"><form method="POST" action="/guestbook.ru/index.php/Guestbook/addAnswerComment"><div class="header"><h3>Вы хотите ответить на отзыв? Заполните форму:</h3></div><input type="hidden" name="idComment" value="'+getIdComment()+'"/><input name="firstname" type="text" size="101" /><textarea name="text" cols="100" rows="10" ></textarea><div class="separator"></div><ul class="fieldsForm"><li><select><option>Sans</option><option>Sans-Sherif</option><option>Fantasy</option><option>Monospace</option></select></li><li><button type="button" name="fontSize" value="+"><img src="/guestbook.ru/images/commentsEditImage/Increase Font-35.png"></button></li><li><button type="button" name="fontSize" value="-"><img src="/guestbook.ru/images/commentsEditImage/Decrease Font-35.png"></button></li><li><button type="button" name="fontDecoration" value="bold"><img src="/guestbook.ru/images/commentsEditImage/Bold Filled-35png"></button></li><li><button type="button" name="fontDecoration" value="italic"><img src="/guestbook.ru/images/commentsEditImage/Italic Filled-35.png"></button></li><li><button type="button" name="fontDecoration" value="underline"><img src="/guestbook.ru/images/commentsEditImage/Underline-35.png"></button></li></ul><ul class="submit"><li><button type="submit"><img src="/guestbook.ru/images/commentsEditImage/Paper Plane-35.png"></button></li></ul></form></div>');
 				$(this).closest('.commentResponded').removeAttr('id', 'сommentsWhichAreResponsible');
 			}
-			// Форма создана и показана, давайте присвоем глобальной переменной FormEditCommentIsShow значение TRUE;
-			window.FormEditCommentIsShow = true;
+			// Форма создана и показана, давайте присвоем глобальной переменной FormAddAnswerCommentIsShow значение TRUE;
+			window.FormAddAnswerCommentIsShow = true;
 		} else {
 			$('#RespondedForm').remove();
+			window.FormAddAnswerCommentIsShow = false;
+		}
+	}
+
+	var FormEditCommentIsShow;
+ 
+	function getFormEditComment(event)
+	{
+		// Данный if проверяет есть ли форма ответа на комментарий на странице. Если нет, то он создает её и
+		// присваевает переменной FormEditCommentIsShow значение true, говорящее о том, что форма создана.
+		// Если форма есть, то он удаляет её и присваевает переменной значение false
+		if (!window.FormEditCommentIsShow) 
+		{
+			if (!event.data.isCommentResponded)
+			{
+				$(this).closest('.comment').attr('id', 'сommentsWhichAreResponsible');
+				$('#сommentsWhichAreResponsible').after('<div class="form" id="EditCommentForm"><form method="POST" action="/guestbook.ru/index.php/Guestbook/addAnswerComment"><div class="header"><h3>Вы хотите отредактировать свой отзыв? Заполните форму:</h3></div><input name="id" type="hidden" value="'+getIdComment()+'" /><input name="firstname" type="text" size="101" /><textarea name="text" cols="100" rows="10" ></textarea><div class="separator"></div><ul class="fieldsForm"><li><select><option>Sans</option><option>Sans-Sherif</option><option>Fantasy</option><option>Monospace</option></select></li><li><button type="button" name="fontSize" value="+"><img src="/guestbook.ru/images/commentsEditImage/Increase Font-35.png"></button></li><li><button type="button" name="fontSize" value="-"><img src="/guestbook.ru/images/commentsEditImage/Decrease Font-35.png"></button></li><li><button type="button" name="fontDecoration" value="bold"><img src="/guestbook.ru/images/commentsEditImage/Bold Filled-35png"></button></li><li><button type="button" name="fontDecoration" value="italic"><img src="/guestbook.ru/images/commentsEditImage/Italic Filled-35.png"></button></li><li><button type="button" name="fontDecoration" value="underline"><img src="/guestbook.ru/images/commentsEditImage/Underline-35.png"></button></li></ul><ul class="submit"><li><button type="submit"><img src="/guestbook.ru/images/commentsEditImage/Paper Plane-35.png"></button></li></ul></form></div>');
+				$(this).closest('.comment').removeAttr('id', 'сommentsWhichAreResponsible');
+			} else {
+				$(this).closest('.commentResponded').attr('id', 'сommentsWhichAreResponsible');
+				$('#сommentsWhichAreResponsible').after('<div class="form" id="EditCommentForm"><form method="POST" action="/guestbook.ru/index.php/Guestbook/addAnswerComment"><div class="header"><h3>Вы хотите отредактировать свой отзыв? Заполните форму:</h3></div><input name="id" type="hidden" value="'+getIdComment()+'" /><input name="firstname" type="text" size="101" /><textarea name="text" cols="100" rows="10" ></textarea><div class="separator"></div><ul class="fieldsForm"><li><select><option>Sans</option><option>Sans-Sherif</option><option>Fantasy</option><option>Monospace</option></select></li><li><button type="button" name="fontSize" value="+"><img src="/guestbook.ru/images/commentsEditImage/Increase Font-35.png"></button></li><li><button type="button" name="fontSize" value="-"><img src="/guestbook.ru/images/commentsEditImage/Decrease Font-35.png"></button></li><li><button type="button" name="fontDecoration" value="bold"><img src="/guestbook.ru/images/commentsEditImage/Bold Filled-35png"></button></li><li><button type="button" name="fontDecoration" value="italic"><img src="/guestbook.ru/images/commentsEditImage/Italic Filled-35.png"></button></li><li><button type="button" name="fontDecoration" value="underline"><img src="/guestbook.ru/images/commentsEditImage/Underline-35.png"></button></li></ul><ul class="submit"><li><button type="submit"><img src="/guestbook.ru/images/commentsEditImage/Paper Plane-35.png"></button></li></ul></form></div>');
+				$(this).closest('.commentResponded').removeAttr('id', 'сommentsWhichAreResponsible');
+			}
+			// Форма создана и показана, давайте присвоем глобальной переменной FormAddAnswerCommentIsShow значение TRUE;
+			window.FormEditCommentIsShow = true;
+		} else {
+			$('#EditCommentForm').remove();
 			window.FormEditCommentIsShow = false;
 		}
 	}
@@ -96,9 +118,14 @@ $(document).ready(function(){
 	$('#radioRating5Checked').bind("click", { value: "5"}, radioRatingChecked);
 	$('#radioRating5Checked').bind("click", { value: "5"}, ratioCheckedImage);
 
-	// Обработка редактирование отзыва
+	// Обработчики вызова формы при клике на кнопку ответа на комментарий
 
-	$('.commentResponded .footer button.responded img').on('click', {isCommentResponded: true}, getFormEditComment);
-	$('.comment .footer button.responded img').on('click', {isCommentResponded: false}, getFormEditComment);
+	$('.commentResponded .footer button.responded img').on('click', {isCommentResponded: true}, getFormAddAnswerComment);
+	$('.comment .footer button.responded img').on('click', {isCommentResponded: false}, getFormAddAnswerComment);
+
+	// Обработчики вызова формы при клике на кнопку редоктирования комментария
+
+	$('.commentResponded .footer button.edit img').on('click', {isCommentResponded: true}, getFormEditComment);
+	$('.comment .footer button.edit img').on('click', {isCommentResponded: false}, getFormEditComment);
 
 });
