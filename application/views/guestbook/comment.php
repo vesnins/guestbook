@@ -18,6 +18,7 @@
 				<li><span class="commentNumber">#<?= $id; ?></span></li>
 				<li>Оценка:
 				<?php
+					// Выводим "правильно расскращенные" звездочки в соответствии с оценкой
 					for ($i=0; $i < 5; $i++) { 
 						if($rating <= $i):
 							echo '<img src="/guestbook.ru/images/commentsImage/Star Filled-20.png">';
@@ -37,12 +38,13 @@
 		</div>
 	</div>
 	<div class="separator"></div>
-	<? if(isset($answerComments): ?>
-		<?php $answerComments['preCommentFirstName'] = $firstname;
-		print_r($answerComments);
-		$this->load->view('guestbook/answerComment', $answerComments);
-		?>
-	<? endif; ?>
-	<?php unset($answerComments); ?>
+	<?php 
+// Данный if проверяет на существование массив с ответами на комментарии, и, если они существуют, то вызовет view ответов на комментарии. (В связи с использованием костыля, в условии if используется "@" подавляющаяя notice при отсутствие переменной) 
+		if(@$answerComments)
+		{
+			$answerComments['preCommentFirstName'] = $firstname;
+			$this->load->view('guestbook/answerComment', $answerComments);
+		}
+	?>
 </body>
 </html>
