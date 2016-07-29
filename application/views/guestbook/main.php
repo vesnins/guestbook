@@ -25,7 +25,6 @@
 					$dataItem['answerComments'] = FALSE;
 				}
 				$this->load->view('guestbook/comment', $dataItem);
-				print_r($dataItem);
 			} ?>
 		</div>	
 		<div class="separator"></div>

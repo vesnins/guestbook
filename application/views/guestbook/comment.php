@@ -5,9 +5,6 @@
 	<title></title>
 </head>
 <body>
-<br/>
-<?php //if(isset($answerComments)): echo 'Переменная $answerComments жива...'; else: 'Переменной $answerComments НЕТ!!!'; endif; ?>
-<br/>
 	<div class="comment">
 		<div class="header">
 			<span class="firstname"><?= $firstname;?></span> <?= $date; ?> 
@@ -21,6 +18,7 @@
 				<li><span class="commentNumber">#<?= $id; ?></span></li>
 				<li>Оценка:
 				<?php
+					// Выводим "правильно расскращенные" звездочки в соответствии с оценкой
 					for ($i=0; $i < 5; $i++) { 
 						if($rating <= $i):
 							echo '<img src="/guestbook.ru/images/commentsImage/Star Filled-20.png">';

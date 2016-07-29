@@ -31,6 +31,7 @@
 			return $query->result_array();
 		}
 
+// Данная функция формирует запрос на добавление данных в таблицу и выполняет его. Функции передаются два параметра: название таблицы и массив данных
 		private function query_add($tablename, $data)
 		{
 			$query = $this->db->insert_string($tablename, $data);
@@ -61,12 +62,31 @@
 		{
 			// Проверяем данные
 			if($this->protectedData($data)){
+				// Добавляем ID комментария с помощь addNewIdComments, так как использование AI MySQL не целесообразно
+				$data['id'] = $this->addNewIdComments();
 				// Добавляем ID сесси в массив
 				$data['sessionId'] = session_id();
 				// Добавляем текущее время и дату в массив
-				$data['date'] = $this->getRussianDate(date('d M. Y \в H:i:s', time()));
+				$data['date'] = $this->getRussianDate(date('d M Y \в H:i:s', time()));
 				return $data;
 			}
+		}
+
+// Данная функция вычисляет новый ID на основании последнего использованного ID
+		private function addNewIdComments()
+		{
+			$lastId = $this->getLastId();
+			$lastId += 1;
+			return $lastId;
+		}
+
+// Данная функция получает последний использованный ID и возвращает его в виде строки
+		private function getLastId()
+		{
+			$query = $this->db->query('SELECT id FROM comments ORDER BY id DESC LIMIT 1');
+			$lastId = $query->result_array();
+			$lastId = $lastId['0']['id'];
+			return $lastId;
 		}
 
 		// Данная функция должна будет проверять данные (пока не реализованно)
