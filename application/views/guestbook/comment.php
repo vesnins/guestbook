@@ -37,12 +37,16 @@
 		</div>
 	</div>
 	<div class="separator"></div>
-	<? if(isset($answerComments): ?>
+	<? // Проверям существование переменной, если переменная существует, то вызываем отображение ответов на комментарии
+		if(isset($answerComments): ?>
 		<?php $answerComments['preCommentFirstName'] = $firstname;
 		print_r($answerComments);
 		$this->load->view('guestbook/answerComment', $answerComments);
 		?>
 	<? endif; ?>
-	<?php unset($answerComments); ?>
+	<?php // пытаемся удалить переменную с ответами на комментарии
+	unset($answerComments); 
+	// Но, увы, нам это не удается...
+	?>
 </body>
 </html>

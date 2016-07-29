@@ -19,7 +19,13 @@
 	<div class="pageContent">
 		<div class="comments">
 			<?php foreach ($comments as $dataItem) {
+				print_r($dataItem);
 				$this->load->view('guestbook/comment', $dataItem);
+				// Пытаемся удалить элемент массива после использования
+				unset($dataItem['answerComments']);
+				// Здесь у нас это сделать получается, но в виде он всеравно остается...
+				print_r($dataItem);
+				echo "<br/>";
 			} ?>
 		</div>	
 		<div class="separator"></div>
