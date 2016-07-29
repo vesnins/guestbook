@@ -31,17 +31,44 @@
 			return $this->query_add('commentsAnswer', $data);
 		}
 
-// Данная функция изменяет записи в таблице commments на основании данных прибывших POST-запросом (предварительно подготавливая их с помощь preparationData)
+// Данная функция изменяет записи в таблице comments на основании данных прибывших POST-запросом (предварительно подготавливая их с помощь preparationData)
 		public function editComments($data)
 		{
-			$data = $this->preparationData($data, false);
-			return $this->query_edit('comments', $data);
+			$data = $this->preparationData($data, false, 'comment');
+			return $this->query_edit('comments', $data['data'], $data['id']);
+		}
+
+// Данная функция изменяет записи в таблице commentsAnswer на основании данных прибывших POST-запросом (предварительно подготавливая их с помощь preparationData)
+		public function editAnswerComment($data)
+		{
+			$data = $this->preparationData($data, false, 'answer');
+			return $this->query_edit('commentsAnswer', $data['data'], $data['id']);
+		}
+
+// Данная функция удаляет запись в таблице comments на основании id переданного POST-запросом (предварительно проверив есть ли такой id в таблице)
+		public function deleteComment($id)
+		{
+			if($this->checkId('comments', $id)){
+				return $this->query_delete('comments', $id);
+			} else {
+				return false;
+			}
+		}
+
+// Данная функция удаляет запись в таблице commentsAnswer на основании id переданного POST-запросом (предварительно проверив есть ли такой id в таблице)
+		public function deleteAnswerComment($data)
+		{
+			if($this->checkId('commentsAnswer', $id)){
+				return $this->query_delete('commentsAnswer', $id);
+			} else {
+				return false;
+			}
 		}
 
 // Данная функция отправляет запрос в базу данных на получение всех данных из таблицы переданной в $tablename с лимитом ($limit) и условием ($where)
-		private function query_getAll($tablename, $limit = '', $where = '') 
+		private function query_getAll($tablename, $limit = '', $ofset = '') 
 		{
-			$query = $this->db->get($tablename, $limit, $where);
+			$query = $this->db->get($tablename, $limit, $ofset);
 			return $query->result_array();
 		}
 
@@ -52,11 +79,19 @@
 			return $this->db->query($query);
 		}
 
+// Данная функция формирует запрос на обновление данных в таблицу и выполняет его. Функции передаются три парамметра: название таблицы, массив данных и id по которому она "понимает" какую запись обновлять
 		private function query_edit($tablename, $data, $id)
 		{
-
+			$query = $this->db->update_string($tablename, $data, 'id = '.$id);
+			return $this->db->query($query);
 		}
 
+// Данная функция формирует запрос на удаление данных в таблицу и выполняет его. Функции передается 2 параметра: ID удаляемой записи и таблица в которой его надо будет удалять
+		private function query_delete($tablename, $id)
+		{
+			$query = $this->db->delete($tablename, array('id' => $id));
+			return $query;
+		}
 // Данная функция "склеивает" массивы комментариев и ответов на комментарии
 		private function getAllAnswerComments($data)
 		{
@@ -78,7 +113,8 @@
 
 		// Данная функция подготавливает массив данных к отправке в БД ()
 		// Второй парамметр говорит о том, подготавливаются ли данные для добавления или редактирования (true - добавление, false - редактирование)
-		private function preparationData($data, $isAdd = true)
+		// Третий парамметр говорит о том, с каким видом комментарие мы работаем ('comment' или 'answer') актуально для блока редактирования
+		private function preparationData($data, $isAdd = true, $type = '')
 		{
 			if($isAdd)
 			{
@@ -97,10 +133,13 @@
 				if($this->protectedData($data)){
 					// Удаление пустых элементов из массива
 					$data = $this->emptyElementsFromArray($data);
+					// Получаем ID записи по дате
+					$commentId = $this->getIdForDate($data, $type);
 					// Разделяем массив на еще два массива (в первом будет лежать id редактируеммой записи, а во втором данные)
-					
+					$data = array('id' => $commentId, 'data' => $data);
 					// Сверяем ID записи, которую мы редактируем и ID записи присланной из формы
 					// Можно добавить обновление времени публикации (так как редактируется тут строго по сессии в поле "дата редактирование" отпадает нужда)
+					$data['data']['date'] = $this->getRussianDate(date('d M Y \в H:i:s', time()));
 					return $data;
 				}
 			}
@@ -109,7 +148,7 @@
 // Данная функция вычисляет новый ID на основании последнего использованного ID
 		private function addNewIdComments()
 		{
-			$lastId = $this->getLastId();
+			@$lastId = $this->getLastId();
 			$lastId += 1;
 			return $lastId;
 		}
@@ -119,7 +158,7 @@
 		{
 			$query = $this->db->query('SELECT id FROM comments ORDER BY id DESC LIMIT 1');
 			$lastId = $query->result_array();
-			$lastId = $lastId['0']['id'];
+			@$lastId = $lastId['0']['id'];
 			return $lastId;
 		}
 
@@ -127,6 +166,20 @@
 		private function protectedData($data)
 		{
 			return true;
+		}
+
+		// Данная функция проверяет переданный id с id находящимся в таблице БД (принимает 2 параметра: сам id и название таблицы в которой будет происходить проверка)
+		private function checkId($tablename, $id)
+		{
+			$this->db->select('id');
+			$id_db = $this->db->get_where($tablename, array('id' => $id), 1);
+			$id_db = $id_db->result_array();
+			if($id == $id_db[0]['id'])
+			{
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		// Данная функция удаляет все пустые элементы массива
@@ -139,6 +192,22 @@
 				endif;
 			}
 			return $array;
+		}
+
+// Данная функция вычисляет ID записи по дате. Функции передаются два параметра: массив данных и тип комментария ('comment' или 'answer')
+		private function getIdForDate($data, $type)
+		{
+			if($type === 'comment') {
+				$this->db->select('id');
+				$id = $this->db->get_where('comments', array('date' => $data['date']), 1);
+				$id = $id->result_array();
+				return $id[0]['id'];				
+			} elseif($type === 'answer') {
+				$this->db->select('id');
+				$id = $this->db->get_where('commentsAnswer', array('date' => $date['date']), 1);
+				$id = $id->result_array();
+				return $id[0]['id'];
+			}
 		}
 
 		// Функция "руссификации" даты
