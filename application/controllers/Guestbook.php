@@ -5,7 +5,7 @@ class guestbook extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->output->enable_profiler(TRUE);
+//		$this->output->enable_profiler(TRUE);
 		$this->load->library('session');
 	}
 
@@ -25,7 +25,7 @@ class guestbook extends CI_Controller {
 	public function addAnswerComment()
 	{
 		$this->load->model('Guestbook_model');
-		$this->Guestbook_model->addAnswerComment($_POST);
+		return $this->Guestbook_model->addAnswerComment($_POST);
 	}
 
 	public function editComment()
