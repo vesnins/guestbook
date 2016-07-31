@@ -7,7 +7,7 @@
 <body>
 	<div class="comment">
 		<div class="header">
-			<span class="firstname"><?= $firstname;?></span> <?= $date; ?> 
+			<span class="firstname"><?= $firstname;?></span> <span class="date"><?= $date; ?></span> 
 				оставил отзыв:				
 		</div>
 		<div class="content">
@@ -30,7 +30,7 @@
 				</li>
 				<li><button class="responded"><img src="/guestbook.ru/images/commentsImage/Response-20.png"></button></li>
 				<!-- После завершения дебага вернуть проверку на "==" -->
-				<?php if($sessionId != session_id()):?>
+				<?php if($sessionId = session_id()):?>
 					<li><button class="edit"><img src="/guestbook.ru/images/commentsImage/Pencil-20.png"></button></li>
 					<li><button class="delete"><img src="/guestbook.ru/images/commentsImage/Delete-Filled-20.png"></button></li>
 				<?php endif; ?>
