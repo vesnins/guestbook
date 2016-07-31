@@ -164,6 +164,7 @@ $(document).ready(function(){
 			  url: "/guestbook.ru/index.php/Guestbook/addAnswerComment",
 			  data: dataForm,
 			  success: function(msg){
+//			  	console.log(msg);
 			  	$('#RespondedForm').before(msg);
 			  	$('#RespondedForm').remove();
 			  }
