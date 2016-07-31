@@ -17,11 +17,12 @@
 			return $data;
 		}
 
-// Данная функция записывает комментарии прибывшие POST-запросом в таблицу comments (предварительно подготавливая их с помощью preparationData)
+// Данная функция записывает комментарии прибывшие POST-запросом в таблицу comments (предварительно подготавливая их с помощью preparationData) и возвращает строку вида созданную функцией getViewNewComment()
 		public function addComments($data)
 		{
 			$data = $this->preparationData($data, true);
-			return $this->query_add('comments', $data);
+			$this->query_add('comments', $data);
+			return $this->getViewNewComment($data);
 		}
 
 // Данная функция записывает ответы на комментарии прибывшие POST-запросом в таблицу commentsAnswer (предварительно подготавливая их с помощью preparationData) и возвращает строку вида созданную функцией getViewNewAnswerComment()
@@ -218,6 +219,7 @@
 			}
 		}
 
+// Данная функция возвращает отрендеренный ответ на комментарий для Ajax
 		private function getViewNewAnswerComment($data)
 		{
 			// Получаем из базы данных firstname комментария на который отвечали
@@ -225,8 +227,13 @@
 			$firstnamePreComment = $this->db->get_where('comments', array('id' => $data['idComment']), 1);
 			$firstnamePreComment = $firstnamePreComment->result_array();
 			$data['preCommentFirstName'] = $firstnamePreComment[0]['firstname'];
-			echo $this->load->view('guestbook/answerComment', $data, true);
 			return $this->load->view('guestbook/answerComment', $data, true);
+		}
+
+// Данная функция возвращает отрендеренный последний добавленный комментарий для ajax
+		private function getViewNewComment($data)
+		{
+			return $this->load->view('guestbook/comment', $data);
 		}
 
 		// Функция "руссификации" даты

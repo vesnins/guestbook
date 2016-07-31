@@ -19,13 +19,15 @@ class guestbook extends CI_Controller {
 	public function addComments()
 	{
 		$this->load->model('Guestbook_model');
-		$this->Guestbook_model->addComments($_POST);
+		$view = $this->Guestbook_model->addComments($_POST);
+		return $view;
 	}
 
 	public function addAnswerComment()
 	{
 		$this->load->model('Guestbook_model');
-		return $this->Guestbook_model->addAnswerComment($_POST);
+		$view = $this->Guestbook_model->addAnswerComment($_POST);
+		return $view;
 	}
 
 	public function editComment()
