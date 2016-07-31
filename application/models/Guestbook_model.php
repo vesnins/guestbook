@@ -17,18 +17,20 @@
 			return $data;
 		}
 
-// Данная функция записывает комментарии прибывшие POST-запросом в таблицу comments (предварительно подготавливая их с помощью preparationData)
+// Данная функция записывает комментарии прибывшие POST-запросом в таблицу comments (предварительно подготавливая их с помощью preparationData) и возвращает строку вида созданную функцией getViewNewComment()
 		public function addComments($data)
 		{
 			$data = $this->preparationData($data, true);
-			return $this->query_add('comments', $data);
+			$this->query_add('comments', $data);
+			return $this->getViewNewComment($data);
 		}
 
-// Данная функция записывает ответы на комментарии прибывшие POST-запросом в таблицу commentsAnswer (предварительно подготавливая их с помощью preparationData)
+// Данная функция записывает ответы на комментарии прибывшие POST-запросом в таблицу commentsAnswer (предварительно подготавливая их с помощью preparationData) и возвращает строку вида созданную функцией getViewNewAnswerComment()
 		public function addAnswerComment($data)
 		{
 			$data = $this->preparationData($data, true);
-			return $this->query_add('commentsAnswer', $data);
+			$this->query_add('commentsAnswer', $data);
+			return $this->getViewNewAnswerComment($data);
 		}
 
 // Данная функция изменяет записи в таблице comments на основании данных прибывших POST-запросом (предварительно подготавливая их с помощь preparationData)
@@ -97,11 +99,13 @@
 		{
 			$answerComments = $this->query_getAll('commentsAnswer');
 			$i = 0;
+			$j = 0;
 			foreach ($data as $item) {
 				$comments[$i] = $item;
 				foreach ($answerComments as $key => $answerItem) {
 					if($comments[$i]['id'] === $answerItem['idComment']){
-						$comments[$i]['answerComments'] = $answerItem;
+						$comments[$i]['answerComments'][$j] = $answerItem;
+						$j++;
 					} else {
 						continue;
 					}
@@ -156,9 +160,16 @@
 // Данная функция получает последний использованный ID и возвращает его в виде строки
 		private function getLastId()
 		{
-			$query = $this->db->query('SELECT id FROM comments ORDER BY id DESC LIMIT 1');
-			$lastId = $query->result_array();
-			@$lastId = $lastId['0']['id'];
+			$queryCom = $this->db->query('SELECT id FROM comments ORDER BY id DESC LIMIT 1');
+			$queryComAns = $this->db->query('SELECT id FROM commentsAnswer ORDER BY id DESC LIMIT 1');
+			$com = $queryCom->result_array();
+			$comAns = $queryComAns->result_array();
+			if($com['0']['id'] < $comAns['0']['id']) {
+				$lastId = $comAns['0']['id'];
+			} else {
+				$lastId = $com['0']['id'];
+			}
+			@$lastId = $lastId;
 			return $lastId;
 		}
 
@@ -208,6 +219,23 @@
 				$id = $id->result_array();
 				return $id[0]['id'];
 			}
+		}
+
+// Данная функция возвращает отрендеренный ответ на комментарий для Ajax
+		private function getViewNewAnswerComment($data)
+		{
+			// Получаем из базы данных firstname комментария на который отвечали
+			$this->db->select('firstname');
+			$firstnamePreComment = $this->db->get_where('comments', array('id' => $data['idComment']), 1);
+			$firstnamePreComment = $firstnamePreComment->result_array();
+			$data['preCommentFirstName'] = $firstnamePreComment[0]['firstname'];
+			return $this->load->view('guestbook/answerComment', $data);
+		}
+
+// Данная функция возвращает отрендеренный последний добавленный комментарий для ajax
+		private function getViewNewComment($data)
+		{
+			return $this->load->view('guestbook/comment', $data);
 		}
 
 		// Функция "руссификации" даты

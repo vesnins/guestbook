@@ -1,5 +1,5 @@
 <div class="form">
-	<form method="POST" action="/guestbook.ru/index.php/Guestbook/addComments">
+	<form method="POST">
 		<div class="header">
 			<h3>Оценить сервис на</h3> 
 			<input type="radio" name="rating" value=1>
@@ -30,7 +30,7 @@
 			<li><button type="button" name="fontDecoration" value="underline"><img src="/guestbook.ru/images/commentsEditImage/Underline-35.png"></button></li>
 		</ul>
 		<ul class="submit">
-			<li><button type="submit"><img src="/guestbook.ru/images/commentsEditImage/Paper Plane-35.png"></button></li>
+			<li><button type="button"><img src="/guestbook.ru/images/commentsEditImage/Paper Plane-35.png"></button></li>
 		</ul>
 	</form>
 </div>

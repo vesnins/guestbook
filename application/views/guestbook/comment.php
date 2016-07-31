@@ -42,8 +42,10 @@
 // Данный if проверяет на существование массив с ответами на комментарии, и, если они существуют, то вызовет view ответов на комментарии. (В связи с использованием костыля, в условии if используется "@" подавляющаяя notice при отсутствие переменной) 
 		if(@$answerComments)
 		{
-			$answerComments['preCommentFirstName'] = $firstname;
-			$this->load->view('guestbook/answerComment', $answerComments);
+			foreach ($answerComments as $itemAnswerComments) {
+				$itemAnswerComments['preCommentFirstName'] = $firstname;
+				$this->load->view('guestbook/answerComment', $itemAnswerComments);
+			}
 		}
 	?>
 </body>
