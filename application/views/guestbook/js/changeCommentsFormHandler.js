@@ -171,8 +171,18 @@ $(document).ready(function(){
 			});
 		} else {
 			var dataForm;
-			dataForm = $('#RespondedForm form').val();
+			dataForm = jQuery.param($('#RespondedForm form').serializeArray());
 			console.log(dataForm);
+			$.ajax({
+			  type: "POST",
+			  url: "/guestbook.ru/index.php/Guestbook/addAnswerComment",
+			  data: dataForm,
+			  success: function(msg){
+//			  	console.log(msg);
+			  	$('#RespondedForm').before(msg);
+			  	$('#RespondedForm').remove();
+			  }
+			});
 		}
 	}
 
