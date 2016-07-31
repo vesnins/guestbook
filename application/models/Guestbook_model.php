@@ -99,11 +99,13 @@
 		{
 			$answerComments = $this->query_getAll('commentsAnswer');
 			$i = 0;
+			$j = 0;
 			foreach ($data as $item) {
 				$comments[$i] = $item;
 				foreach ($answerComments as $key => $answerItem) {
 					if($comments[$i]['id'] === $answerItem['idComment']){
-						$comments[$i]['answerComments'] = $answerItem;
+						$comments[$i]['answerComments'][$j] = $answerItem;
+						$j++;
 					} else {
 						continue;
 					}
@@ -227,7 +229,7 @@
 			$firstnamePreComment = $this->db->get_where('comments', array('id' => $data['idComment']), 1);
 			$firstnamePreComment = $firstnamePreComment->result_array();
 			$data['preCommentFirstName'] = $firstnamePreComment[0]['firstname'];
-			return $this->load->view('guestbook/answerComment', $data, true);
+			return $this->load->view('guestbook/answerComment', $data);
 		}
 
 // Данная функция возвращает отрендеренный последний добавленный комментарий для ajax
