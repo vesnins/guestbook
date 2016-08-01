@@ -228,7 +228,15 @@
 			$this->db->select('firstname');
 			$firstnamePreComment = $this->db->get_where('comments', array('id' => $data['idComment']), 1);
 			$firstnamePreComment = $firstnamePreComment->result_array();
-			$data['preCommentFirstName'] = $firstnamePreComment[0]['firstname'];
+			// Если в таблице комментариев нет искомого id смотрим в таблицу ответов
+			if (@$firstnamePreComment[0]['firstname'])
+			{
+				$data['preCommentFirstName'] = $firstnamePreComment[0]['firstname'];
+			} else {
+				$firstnamePreComment = $this->db->get_where('commentsAnswer', array('id' => $data['idComment']), 1);
+				$firstnamePreComment = $firstnamePreComment->result_array();
+				$data['preCommentFirstName'] = $firstnamePreComment[0]['firstname'];
+			}
 			return $this->load->view('guestbook/answerComment', $data);
 		}
 
