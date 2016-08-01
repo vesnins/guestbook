@@ -99,20 +99,28 @@
 		{
 			$answerComments = $this->query_getAll('commentsAnswer');
 			$i = 0;
-			$j = 0;
-			foreach ($data as $item) {
-				$comments[$i] = $item;
-				foreach ($answerComments as $key => $answerItem) {
-					if($comments[$i]['id'] === $answerItem['idComment']){
+			foreach ($data as $commentsItem) {
+				$comments[$i] = $commentsItem;
+				$j = 0;
+				foreach ($answerComments as $answerItem) {
+					if($commentsItem['id'] === $answerItem['idComment'])
+					{
 						$comments[$i]['answerComments'][$j] = $answerItem;
-						$j++;
-					} else {
-						continue;
 					}
+					foreach ($answerComments as $answersItem) {
+						if($answerItem['id'] === $answersItem['idComment'])
+						{
+							$comments[$i]['answerComments'][$j] = $answersItem;
+						}
+					}
+					$j++;
+					print_r($comments[$i]['answerComments'][$j]);
+					
 				}
 				$i++;
+				return $comments;
 			}
-			return $comments;
+			
 		}
 
 		// Данная функция подготавливает массив данных к отправке в БД ()
