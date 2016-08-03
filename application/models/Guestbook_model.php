@@ -97,7 +97,7 @@
 // Данная функция "склеивает" массивы комментариев и ответов на комментарии
 		private function getAllAnswerComments($data)
 		{
-			$this->getAnswerComments();
+			$this->getAnswerComments('7');
 			$i = 0;
 			foreach ($data as $commentsItem) {
 				$comments[$i] = $commentsItem;
@@ -123,19 +123,37 @@
 		//	return $comments;			
 		}
 
-		private function getAnswerComments()
+		private function getAnswerComments($id)
 		{
 			$i = 0;
-			$answerComments = $this->query_getAll('commentsAnswer');
+			$answerComments = $this->db->get_where('commentsAnswer', array('id' => $id));
+			$answerComments = $answerComments->result_array();
 			foreach ($answerComments as $answerItem) {
-
-				$answersComments = $this->db->get_where('commentsAnswer', array('id' => $answerItem['idComment']));
-				print_r($answerComments);
-				echo $answerItem['idComment']." = ".$answersComments[15]['id'];
-				echo "<br/><br/><hr/><hr/>";
-				$answer[$i]['answerComments'] = $answersComments->result_array();
-				echo "<br/>".print_r($answer[$i]['answerComments'])."<br/>";
-				echo "<hr/>";
+				$answersComments = $this->db->get_where('commentsAnswer', array('idComment' => $answerItem['id']));
+				$answersComments = $answersComments->result_array();
+				$answer[$i] = $answerComments;
+				$j = 0;
+				foreach ($answersComments as $answersItem) 
+				{
+					$answer[$i][$j] = $answersItem;
+					$tmp = 0;
+					print_r($answer);
+					while ($tmp < 10) {
+						$tmpAnswer = $this->db->get_where('commentsAnswer', array('idComment' => $answer[$i][$j]['id']));
+						$answer[$i][$j] = $tmpAnswer->result_array();
+						/*print_r($answer[$i][$j]);
+						echo "Итерация while: ".$tmp."<br/><hr/>";*/
+						$j++;
+						$tmp++;
+					}
+				}
+				/*echo "<br/><hr/><hr/>".print_r(current($answersComments))."<br/><hr/><hr/>";
+				print_r($answersComments);
+				echo "<br/><hr/>";
+				
+				echo "BEGIN";
+				print_r($answer[$i]['answerComments']);
+				echo "<br/><hr/>END<hr/><br/>";*/
 				$i++;
 			}
 			
