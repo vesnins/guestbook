@@ -97,28 +97,46 @@
 // Данная функция "склеивает" массивы комментариев и ответов на комментарии
 		private function getAllAnswerComments($data)
 		{
-			$answerComments = $this->query_getAll('commentsAnswer');
+			$this->getAnswerComments();
 			$i = 0;
 			foreach ($data as $commentsItem) {
 				$comments[$i] = $commentsItem;
 				$j = 0;
-				foreach ($answerComments as $answerItem) {
+				/*foreach ($answerComments as $answerItem) {
 					if($commentsItem['id'] === $answerItem['idComment'])
 					{
 						$comments[$i]['answerComments'][$j] = $answerItem;
+						$j++;
 					}
 					foreach ($answerComments as $answersItem) {
 						if($answerItem['id'] === $answersItem['idComment'])
 						{
 							$comments[$i]['answerComments'][$j] = $answersItem;
+							$j++;
 						}
-					}
-					$j++;
-					print_r($comments[$i]['answerComments'][$j]);
-					
-				}
+					}*/
+				
+
 				$i++;
-				return $comments;
+			}
+		//	print_r($comments);
+		//	return $comments;			
+		}
+
+		private function getAnswerComments()
+		{
+			$i = 0;
+			$answerComments = $this->query_getAll('commentsAnswer');
+			foreach ($answerComments as $answerItem) {
+
+				$answersComments = $this->db->get_where('commentsAnswer', array('id' => $answerItem['idComment']));
+				print_r($answerComments);
+				echo $answerItem['idComment']." = ".$answersComments[15]['id'];
+				echo "<br/><br/><hr/><hr/>";
+				$answer[$i]['answerComments'] = $answersComments->result_array();
+				echo "<br/>".print_r($answer[$i]['answerComments'])."<br/>";
+				echo "<hr/>";
+				$i++;
 			}
 			
 		}
